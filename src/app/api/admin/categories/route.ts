@@ -1,0 +1,28 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { getCategories, createCategory } from '@/lib/db';
+import { getAdminFromRequest } from '@/lib/auth';
+
+export async function GET(request: NextRequest) {
+  const admin = await getAdminFromRequest(request);
+  if (!admin) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const categories = await getCategories(false);
+  return NextResponse.json(categories);
+}
+
+export async function POST(request: NextRequest) {
+  const admin = await getAdminFromRequest(request);
+  if (!admin) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  try {
+    const body = await request.json();
+    const category = await createCategory(body);
+    return NextResponse.json(category, { status: 201 });
+  } catch {
+    return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
+  }
+}

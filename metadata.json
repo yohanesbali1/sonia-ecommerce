@@ -1,0 +1,6 @@
+{
+  "name": "SONIABALISHOP - Fashion & Beauty Boutique",
+  "description": "Boutique online store for fashion, beauty, and chic lifestyle with direct WhatsApp order integration, custom branding, and streamlined admin panel for products, categories, and store settings.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
