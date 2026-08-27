@@ -4,7 +4,7 @@ import { ToastProvider } from '@/context/ToastContext';
 import { ClientLayout } from './ClientLayout';
 
 export const metadata: Metadata = {
-  title: "SONIABALISHOP - Toko Online Fashion & Beauty Feminine",
+  title: "SONIABALISHOP - Toko Online Fashion & Beauty Feminine.",
   description:
     "Toko online fashion, beauty, dan lifestyle wanita dengan koleksi elegan, cute, dan modern.",
 };
