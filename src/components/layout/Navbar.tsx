@@ -159,16 +159,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onSearch }) => {
                   )}
                 </AnimatePresence>
               </motion.button>
-
-              {/* Admin Panel Trigger */}
-              <button
-                type="button"
-                onClick={() => router.push(isAuthenticated ? '/admin/products' : '/admin/login')}
-                className="hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-pink-50 hover:bg-pink-100/70 border border-pink-200 text-xs font-bold text-[#F49A9D] transition-colors shadow-2xs cursor-pointer"
-              >
-                <ShieldCheck className="w-3.5 h-3.5 text-[#F49A9D]" />
-                <span>{isAuthenticated ? 'Admin Panel' : 'Kelola Toko'}</span>
-              </button>
             </div>
           </div>
         </div>

@@ -142,15 +142,6 @@ export const Footer: React.FC = () => {
                 Produk Terlaris (Best Seller)
               </button>
             </li>
-            <li>
-              <button
-                type="button"
-                onClick={() => router.push('/admin/login')}
-                className="font-bold text-[#F49A9D] hover:underline transition-colors cursor-pointer"
-              >
-                Kelola Toko (Admin Panel)
-              </button>
-            </li>
           </ul>
         </div>
 
@@ -168,15 +159,6 @@ export const Footer: React.FC = () => {
           <div className="flex items-center gap-2 text-xs text-[#9A8585]">
             <Mail className="w-4 h-4 text-[#F49A9D] shrink-0" />
             <span>order@soniabalishop.com</span>
-          </div>
-
-          <div className="pt-2">
-            <span className="text-[11px] font-bold text-[#4A3A3A] block mb-1">Menerima Pembayaran Transfer:</span>
-            <div className="flex items-center gap-2 text-[11px] text-[#9A8585] font-mono">
-              <span className="px-2 py-1 bg-[#FFF9F9] rounded-md border border-[#FEBCBD]/40 font-bold text-[#4A3A3A]">BCA</span>
-              <span className="px-2 py-1 bg-[#FFF9F9] rounded-md border border-[#FEBCBD]/40 font-bold text-[#4A3A3A]">MANDIRI</span>
-              <span className="px-2 py-1 bg-[#FFF9F9] rounded-md border border-[#FEBCBD]/40 font-bold text-[#4A3A3A]">QRIS</span>
-            </div>
           </div>
         </div>
       </div>

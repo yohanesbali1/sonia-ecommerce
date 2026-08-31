@@ -57,7 +57,6 @@ export async function getAdminProducts(
   const query = new URLSearchParams();
   if (search) query.set('search', search);
   if (category_id) query.set('category_id', String(category_id));
-
   const res = await fetch(`${API_BASE}/admin/products?${query.toString()}`, {
     headers: getAdminHeaders(),
   });

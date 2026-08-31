@@ -11,6 +11,7 @@ import {
   Menu,
   X,
   Sparkles,
+  LayoutDashboardIcon,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { BrandLogo } from '@/components/layout/BrandLogo';
@@ -31,26 +32,31 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
   // Admin menu strictly limited to Products, Categories, and Settings
   const menuItems = [
     {
-      id: 'admin-products',
+      id: 'admin-dashboard',
+      label: 'Dashboard',
+      icon: LayoutDashboardIcon,
+    },
+    {
+      id: 'admin-product',
       label: 'Kelola Produk',
       icon: Package,
     },
     {
-      id: 'admin-categories',
+      id: 'admin-category-product',
       label: 'Kelola Kategori',
       icon: FolderTree,
     },
     {
-      id: 'admin-settings',
+      id: 'admin-setting',
       label: 'Pengaturan Toko & WA',
       icon: Settings,
     },
   ];
 
   return (
-    <div className="min-h-screen bg-[#FFF9F9] flex flex-col md:flex-row">
+    <div className="min-h-screen bg-[#FFF9F9] flex flex-col lg:flex-row">
       {/* Mobile Top Bar */}
-      <div className="md:hidden bg-white border-b border-[#FEBCBD]/40 p-4 flex items-center justify-between sticky top-0 z-40">
+      <div className="lg:hidden bg-white border-b border-[#FEBCBD]/40 p-4 flex items-center justify-between sticky top-0 z-40">
         <div className="flex items-center gap-2">
           <button
             type="button"
@@ -61,19 +67,11 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
           </button>
           <BrandLogo size="sm" showText={true} textClassName="text-sm font-bold" />
         </div>
-
-        <button
-          type="button"
-          onClick={() => router.push('/')}
-          className="text-xs font-semibold px-3 py-1.5 rounded-full bg-[#FFF1F1] text-[#4A3A3A] hover:bg-[#FEBCBD]"
-        >
-          Lihat Toko
-        </button>
       </div>
 
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-[#FEBCBD]/40 p-6 flex flex-col justify-between transform transition-transform duration-200 ease-in-out md:translate-x-0 md:static md:h-screen ${
+        className={`fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-[#FEBCBD]/40 p-6 flex flex-col justify-between transform transition-transform duration-200 ease-in-out lg:translate-x-0  md:h-screen ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
@@ -85,7 +83,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
             <button
               type="button"
               onClick={() => setSidebarOpen(false)}
-              className="md:hidden text-[#9A8585] hover:text-[#4A3A3A]"
+              className="lg:hidden text-[#9A8585] hover:text-[#4A3A3A]"
             >
               <X className="w-5 h-5" />
             </button>
@@ -158,7 +156,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 overflow-y-auto min-h-screen p-4 sm:p-6 lg:p-8">
+      <main className="flex-1 overflow-y-auto min-h-screen lg:ml-64 p-4 sm:p-6 lg:p-8">
         <div className="max-w-6xl mx-auto">
           {children}
         </div>

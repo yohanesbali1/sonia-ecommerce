@@ -13,14 +13,7 @@ export default function AdminSettingsPage() {
     logo: '',
     whatsapp: '081234567890',
     email: 'order@soniabalishop.com',
-    address: 'Jl. Sunset Road No. 88, Seminyak, Kuta, Bali',
-    bank_name: 'Bank BCA',
-    bank_account_number: '8271039482',
-    bank_account_holder: 'SONIABALISHOP',
-    secondary_bank_name: 'Bank Mandiri',
-    secondary_account_number: '1270009847123',
-    secondary_account_holder: 'SONIABALISHOP',
-    default_shipping_cost: 15000,
+    address: 'Jl. Sunset Road No. 88, Seminyak, Kuta, Bali'
   });
 
   const [loading, setLoading] = useState(true);
@@ -55,7 +48,8 @@ export default function AdminSettingsPage() {
     try {
       setIsSaving(true);
       const res = await updateAdminSettings(settings);
-      setSettings(res.settings);
+      console.log(res);
+      // setSettings(res.settings);
       showToast('Pengaturan toko & WhatsApp berhasil disimpan 💕', 'pink');
     } catch (err: unknown) {
       showToast(err instanceof Error ? err.message : 'Gagal menyimpan pengaturan', 'error');
@@ -191,7 +185,7 @@ export default function AdminSettingsPage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-3xl p-6 border border-[#FEBCBD]/40 shadow-xs space-y-4">
+        {/* <div className="bg-white rounded-3xl p-6 border border-[#FEBCBD]/40 shadow-xs space-y-4">
           <div className="flex items-center gap-2 pb-2 border-b border-[#FFF1F1]">
             <CreditCard className="w-5 h-5 text-[#F49A9D]" />
             <h2 className="font-display font-semibold text-base text-[#4A3A3A]">
@@ -302,7 +296,7 @@ export default function AdminSettingsPage() {
               *Dihitung otomatis ke dalam total checkout
             </span>
           </div>
-        </div>
+        </div> */}
 
         <div className="flex justify-end pt-2">
           <button

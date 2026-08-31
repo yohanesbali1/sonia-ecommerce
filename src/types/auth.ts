@@ -17,11 +17,4 @@ export interface StoreSettings {
   whatsapp: string;
   email: string;
   address: string;
-  bank_name: string;
-  bank_account_number: string;
-  bank_account_holder: string;
-  secondary_bank_name?: string;
-  secondary_account_number?: string;
-  secondary_account_holder?: string;
-  default_shipping_cost: number;
 }

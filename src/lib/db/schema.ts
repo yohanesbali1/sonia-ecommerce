@@ -6,7 +6,7 @@ export const CATEGORIES_SQL = `
     name TEXT NOT NULL,
     slug TEXT NOT NULL UNIQUE,
     image TEXT,
-    status TEXT NOT NULL DEFAULT 'active',
+    status BOOLEAN NOT NULL DEFAULT 1,
     created_at TEXT NOT NULL DEFAULT (datetime('now')),
     updated_at TEXT NOT NULL DEFAULT (datetime('now'))
   );
@@ -34,7 +34,7 @@ export const PRODUCTS_SQL = `
     price INTEGER NOT NULL DEFAULT 0,
     discount_price INTEGER DEFAULT 0,
     stock INTEGER NOT NULL DEFAULT 0,
-    status TEXT NOT NULL DEFAULT 'active',
+    status BOOLEAN NOT NULL DEFAULT 1,
     featured INTEGER NOT NULL DEFAULT 0,
     best_seller INTEGER NOT NULL DEFAULT 0,
     rating REAL DEFAULT 0,
@@ -118,14 +118,7 @@ export const SETTINGS_SQL = `
     logo_url TEXT DEFAULT '',
     whatsapp TEXT DEFAULT '',
     email TEXT DEFAULT '',
-    address TEXT DEFAULT '',
-    bank_name TEXT DEFAULT '',
-    bank_account_number TEXT DEFAULT '',
-    bank_account_holder TEXT DEFAULT '',
-    secondary_bank_name TEXT DEFAULT '',
-    secondary_account_number TEXT DEFAULT '',
-    secondary_account_holder TEXT DEFAULT '',
-    default_shipping_cost INTEGER NOT NULL DEFAULT 15000
+    address TEXT DEFAULT ''
   );
 `;
 
@@ -145,31 +138,31 @@ export const initialCategories: Omit<Category, 'id' | 'created_at' | 'updated_at
     name: 'Skincare & Glow',
     slug: 'skincare-glow',
     image: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&auto=format&fit=crop&q=80',
-    status: 'active',
+    status: true,
   },
   {
     name: 'Makeup & Beauty',
     slug: 'makeup-beauty',
     image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&auto=format&fit=crop&q=80',
-    status: 'active',
+    status: true,
   },
   {
     name: 'Feminine Dresses',
     slug: 'feminine-dresses',
     image: 'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=600&auto=format&fit=crop&q=80',
-    status: 'active',
+    status: true,
   },
   {
     name: 'Bags & Accessories',
     slug: 'bags-accessories',
     image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600&auto=format&fit=crop&q=80',
-    status: 'active',
+    status: true,
   },
   {
     name: 'Jewelry & Pearls',
     slug: 'jewelry-pearls',
     image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=600&auto=format&fit=crop&q=80',
-    status: 'active',
+    status: true,
   }
 ];
 
@@ -181,7 +174,7 @@ export interface SeedProduct {
   price: number;
   discount_price: number;
   stock: number;
-  status: 'active' | 'inactive';
+  status: boolean;
   featured: boolean;
   best_seller: boolean;
   rating: number;
@@ -197,7 +190,7 @@ export const initialProducts: SeedProduct[] = [
     price: 185000,
     discount_price: 149000,
     stock: 24,
-    status: 'active',
+    status: true,
     featured: true,
     best_seller: true,
     rating: 4.9,
@@ -214,7 +207,7 @@ export const initialProducts: SeedProduct[] = [
     price: 129000,
     discount_price: 99000,
     stock: 35,
-    status: 'active',
+    status: true,
     featured: true,
     best_seller: true,
     rating: 4.8,
@@ -231,7 +224,7 @@ export const initialProducts: SeedProduct[] = [
     price: 349000,
     discount_price: 299000,
     stock: 12,
-    status: 'active',
+    status:true,
     featured: true,
     best_seller: false,
     rating: 5.0,
@@ -248,7 +241,7 @@ export const initialProducts: SeedProduct[] = [
     price: 289000,
     discount_price: 239000,
     stock: 18,
-    status: 'active',
+    status: true,
     featured: false,
     best_seller: true,
     rating: 4.9,
@@ -265,7 +258,7 @@ export const initialProducts: SeedProduct[] = [
     price: 215000,
     discount_price: 175000,
     stock: 15,
-    status: 'active',
+    status: true,
     featured: true,
     best_seller: false,
     rating: 4.9,
@@ -282,7 +275,7 @@ export const initialProducts: SeedProduct[] = [
     price: 145000,
     discount_price: 119000,
     stock: 30,
-    status: 'active',
+    status: true,
     featured: false,
     best_seller: true,
     rating: 4.7,
@@ -298,7 +291,7 @@ export const initialProducts: SeedProduct[] = [
     price: 379000,
     discount_price: 329000,
     stock: 8,
-    status: 'active',
+    status: true,
     featured: false,
     best_seller: false,
     rating: 4.8,
@@ -314,7 +307,7 @@ export const initialProducts: SeedProduct[] = [
     price: 199000,
     discount_price: 165000,
     stock: 20,
-    status: 'active',
+    status: true,
     featured: true,
     best_seller: true,
     rating: 5.0,
@@ -331,11 +324,4 @@ export const initialSettings: StoreSettings = {
   whatsapp: '081234567890',
   email: 'order@soniabalishop.com',
   address: 'Jl. Sunset Road No. 88, Seminyak, Kuta, Bali',
-  bank_name: 'Bank BCA',
-  bank_account_number: '8271039482',
-  bank_account_holder: 'SONIABALISHOP',
-  secondary_bank_name: 'Bank Mandiri',
-  secondary_account_number: '1270009847123',
-  secondary_account_holder: 'SONIABALISHOP',
-  default_shipping_cost: 15000,
 };
