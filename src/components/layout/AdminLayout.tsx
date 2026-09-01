@@ -29,13 +29,12 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Admin menu strictly limited to Products, Categories, and Settings
   const menuItems = [
-    {
-      id: 'admin-dashboard',
-      label: 'Dashboard',
-      icon: LayoutDashboardIcon,
-    },
+    // {
+    //   id: 'admin-dashboard',
+    //   label: 'Dashboard',
+    //   icon: LayoutDashboardIcon,
+    // },
     {
       id: 'admin-product',
       label: 'Kelola Produk',
@@ -55,7 +54,6 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
 
   return (
     <div className="min-h-screen bg-[#FFF9F9] flex flex-col lg:flex-row">
-      {/* Mobile Top Bar */}
       <div className="lg:hidden bg-white border-b border-[#FEBCBD]/40 p-4 flex items-center justify-between sticky top-0 z-40">
         <div className="flex items-center gap-2">
           <button
@@ -69,14 +67,12 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
         </div>
       </div>
 
-      {/* Sidebar */}
       <aside
         className={`fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-[#FEBCBD]/40 p-6 flex flex-col justify-between transform transition-transform duration-200 ease-in-out lg:translate-x-0  md:h-screen ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         <div className="space-y-6">
-          {/* Brand */}
           <div className="flex items-center justify-between">
             <BrandLogo size="md" showText={true} textClassName="text-base font-black" />
 
@@ -94,7 +90,6 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
             <span>Admin Management Panel</span>
           </div>
 
-          {/* Navigation Links */}
           <nav className="space-y-1.5 pt-2">
             {menuItems.map((item) => {
               const Icon = item.icon;
@@ -121,9 +116,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
           </nav>
         </div>
 
-        {/* User profile & Actions at bottom */}
         <div className="space-y-3 pt-6 border-t border-[#FFF1F1]">
-          {/* Quick Store View Switch */}
           <button
             type="button"
             onClick={() => router.push('/')}
@@ -133,7 +126,6 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
             <span>Kunjungi Toko Online</span>
           </button>
 
-          {/* Admin Details */}
           <div className="p-3 rounded-2xl bg-[#FFF1F1]/60 flex items-center justify-between">
             <div className="truncate">
               <span className="font-bold text-xs text-[#4A3A3A] block truncate">
@@ -155,7 +147,6 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
         </div>
       </aside>
 
-      {/* Main Content Area */}
       <main className="flex-1 overflow-y-auto min-h-screen lg:ml-64 p-4 sm:p-6 lg:p-8">
         <div className="max-w-6xl mx-auto">
           {children}

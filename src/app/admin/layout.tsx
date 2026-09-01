@@ -40,37 +40,13 @@ function AdminAuthWrapper({ children }: { children: React.ReactNode }) {
     if (path.startsWith('/admin/product')) return 'admin-product';
     if (path.startsWith('/admin/category-product')) return 'admin-category-product';
     if (path.startsWith('/admin/order')) return 'admin-orders';
-    if (path.startsWith('/admin/dashboard')) return 'admin-dashboard';
+    // if (path.startsWith('/admin/dashboard')) return 'admin-dashboard';
     if (path.startsWith('/admin/setting')) return 'admin-setting';
     return 'admin-products';
   };
 
   const currentView = getViewFromPath(pathname);
 
-  // const handleNavigate = (view: string, param?: Record<string, string | number>) => {
-  //   const routes: Record<string, string> = {
-  //     'admin-products': '/admin/product',
-  //     'admin-categories': '/admin/category-product',
-  //     'admin-orders': '/admin/order',
-  //     'admin-dashboard': '/admin/dashboard',
-  //     'admin-settings': '/admin/settings',
-  //   };
-
-  //   if (view === 'home') {
-  //     router.push('/');
-  //     return;
-  //   }
-
-  //   if (view === 'admin-order-detail' && param?.id) {
-  //     router.push(`/admin/order/${param.id}`);
-  //     return;
-  //   }
-
-  //   const route = routes[view];
-  //   if (route) {
-  //     router.push(route);
-  //   }
-  // };
 
   return (
     <AdminLayout currentView={currentView}>

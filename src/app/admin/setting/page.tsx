@@ -8,12 +8,12 @@ import { useToast } from '@/context/ToastContext';
 
 export default function AdminSettingsPage() {
   const [settings, setSettings] = useState<StoreSettings>({
-    store_name: 'SONIABALISHOP',
-    tagline: 'Fashion, Beauty & Chic Boutique Collection 💕',
+    store_name: '',
+    store_tagline: '',
     logo: '',
-    whatsapp: '081234567890',
-    email: 'order@soniabalishop.com',
-    address: 'Jl. Sunset Road No. 88, Seminyak, Kuta, Bali'
+    whatsapp: '',
+    email: '',
+    address: ''
   });
 
   const [loading, setLoading] = useState(true);
@@ -48,8 +48,10 @@ export default function AdminSettingsPage() {
     try {
       setIsSaving(true);
       const res = await updateAdminSettings(settings);
-      console.log(res);
-      // setSettings(res.settings);
+      setSettings({
+        ...settings,
+        ...res.settings,
+      });
       showToast('Pengaturan toko & WhatsApp berhasil disimpan 💕', 'pink');
     } catch (err: unknown) {
       showToast(err instanceof Error ? err.message : 'Gagal menyimpan pengaturan', 'error');
@@ -108,7 +110,7 @@ export default function AdminSettingsPage() {
                 type="text"
                 name="whatsapp"
                 required
-                value={settings.whatsapp}
+                value={`${settings?.whatsapp}`}
                 onChange={handleChange}
                 placeholder="Contoh: 081234567890 atau 6281234567890"
                 className="w-full px-4 py-3 rounded-2xl bg-white border-2 border-emerald-400 font-bold font-mono text-sm text-[#4A3A3A] focus:outline-hidden focus:ring-2 focus:ring-emerald-400"
@@ -140,44 +142,43 @@ export default function AdminSettingsPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
             <div className="space-y-1">
-              <label className="font-semibold text-[#4A3A3A]">Nama Toko</label>
+              <label className="font-semibold text-[#4A3A3A]">Nama Toko <span className="text-rose-500 font-bold">*</span></label>
               <input
                 type="text"
                 name="store_name"
-                value={settings.store_name}
+                value={`${settings?.store_name}`}
                 onChange={handleChange}
                 className="w-full px-3.5 py-2.5 rounded-2xl bg-[#FFF9F9] border border-[#FEBCBD]/50 text-xs font-bold text-[#4A3A3A] focus:outline-hidden focus:border-[#F49A9D]"
               />
             </div>
 
             <div className="space-y-1">
-              <label className="font-semibold text-[#4A3A3A]">Tagline Toko</label>
+              <label className="font-semibold text-[#4A3A3A]">Tagline Toko <span className="text-rose-500 font-bold">*</span></label>
               <input
                 type="text"
-                name="tagline"
-                value={settings.tagline}
+                name="store_tagline"
+                value={`${settings?.store_tagline}`}
                 onChange={handleChange}
                 className="w-full px-3.5 py-2.5 rounded-2xl bg-[#FFF9F9] border border-[#FEBCBD]/50 text-xs text-[#4A3A3A] focus:outline-hidden focus:border-[#F49A9D]"
               />
             </div>
-
             <div className="space-y-1">
               <label className="font-semibold text-[#4A3A3A]">Email Toko (Opsional)</label>
               <input
                 type="email"
                 name="email"
-                value={settings.email}
+                value={`${settings?.email}`}
                 onChange={handleChange}
                 className="w-full px-3.5 py-2.5 rounded-2xl bg-[#FFF9F9] border border-[#FEBCBD]/50 text-xs text-[#4A3A3A] focus:outline-hidden focus:border-[#F49A9D]"
               />
             </div>
 
             <div className="space-y-1">
-              <label className="font-semibold text-[#4A3A3A]">Lokasi / Alamat Toko</label>
+              <label className="font-semibold text-[#4A3A3A]">Lokasi / Alamat Toko <span className="text-rose-500 font-bold">*</span></label>
               <input
                 type="text"
                 name="address"
-                value={settings.address}
+                value={`${settings?.address}`}
                 onChange={handleChange}
                 className="w-full px-3.5 py-2.5 rounded-2xl bg-[#FFF9F9] border border-[#FEBCBD]/50 text-xs text-[#4A3A3A] focus:outline-hidden focus:border-[#F49A9D]"
               />
