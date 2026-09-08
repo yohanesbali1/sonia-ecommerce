@@ -97,22 +97,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onSearch }) => {
 
               <button
                 type="button"
-                onClick={() => router.push('/products?category=skincare-glow')}
-                className="text-xs font-bold uppercase tracking-wider text-[#4A3A3A] hover:text-[#F49A9D] transition-colors cursor-pointer"
-              >
-                Skincare
-              </button>
-
-              <button
-                type="button"
-                onClick={() => router.push('/products?category=feminine-dresses')}
-                className="text-xs font-bold uppercase tracking-wider text-[#4A3A3A] hover:text-[#F49A9D] transition-colors cursor-pointer"
-              >
-                Fashion
-              </button>
-
-              <button
-                type="button"
                 onClick={() => router.push('/products?filter=best_seller')}
                 className="text-xs font-bold uppercase tracking-wider text-[#4A3A3A] hover:text-[#F49A9D] transition-colors flex items-center gap-1 cursor-pointer"
               >
