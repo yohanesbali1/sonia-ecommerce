@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { motion } from 'motion/react';
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { motion } from "motion/react";
 import {
   Sparkles,
   Heart,
@@ -17,12 +17,14 @@ import {
   Truck,
   Gift,
   Tag,
-} from 'lucide-react';
-import { Product, Category } from '@/types';
-import { getProducts } from '@/services/product.service';
-import { getCategories } from '@/services/category-product.service';
-import { ProductCard } from '@/components/product/ProductCard';
-import { ProductGridSkeleton } from '@/components/ui/LoadingSkeleton';
+  DiscIcon,
+} from "lucide-react";
+import { Product, Category } from "@/types";
+import { getProducts } from "@/services/product.service";
+import { getCategories } from "@/services/category-product.service";
+import { ProductCard } from "@/components/product/ProductCard";
+import { ProductGridSkeleton } from "@/components/ui/LoadingSkeleton";
+import { formatRupiah } from "@/lib/utils";
 
 export default function HomePage() {
   const router = useRouter();
@@ -32,6 +34,8 @@ export default function HomePage() {
   const [bestSellers, setBestSellers] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const [productDashboard, setProductDashboard] = useState<any>([]);
+
   useEffect(() => {
     async function loadData() {
       try {
@@ -39,15 +43,37 @@ export default function HomePage() {
         const [cats, feat, news, best] = await Promise.all([
           getCategories(),
           getProducts({ featured: true }),
-          getProducts({ sort: 'newest' }),
+          getProducts({ sort: "newest" }),
           getProducts({ best_seller: true }),
         ]);
         setCategories(cats);
         setFeaturedProducts(feat.slice(0, 4));
         setNewArrivals(news.slice(0, 4));
         setBestSellers(best.slice(0, 4));
+        best.slice(0, 4).forEach((p) => {
+          const hasDiscount = Boolean(
+            p.discount_price &&
+            p.discount_price > 0 &&
+            p.discount_price < p.price,
+          );
+
+          const currentPrice = hasDiscount ? p.discount_price! : p.price;
+
+          const discountPercent = hasDiscount
+            ? Math.round(((p.price - p.discount_price!) / p.price) * 100)
+            : 0;
+
+          setProductDashboard((prev:any) => [
+            ...prev,
+            {
+              ...p,
+              currentPrice,
+              discountPercent,
+            },
+          ]);
+        });
       } catch (err) {
-        console.error('Error loading home data:', err);
+        console.error("Error loading home data:", err);
       } finally {
         setLoading(false);
       }
@@ -84,7 +110,8 @@ export default function HomePage() {
                     Koleksi Spesial 2026
                   </span>
                   <span className="px-3 py-1 rounded-full bg-white text-[#F49A9D] text-[11px] font-extrabold shadow-xs flex items-center gap-1">
-                    <Heart className="w-3 h-3 fill-[#F49A9D]" /> 100% Feminine & Glow
+                    <Heart className="w-3 h-3 fill-[#F49A9D]" /> 100% Feminine &
+                    Glow
                   </span>
                 </div>
 
@@ -94,12 +121,13 @@ export default function HomePage() {
                     Temukan Produk <br />
                     <span className="underline decoration-white/60 decoration-wavy decoration-2">
                       Favoritmu
-                    </span>{' '}
+                    </span>{" "}
                     💕
                   </h1>
                   <p className="text-xs sm:text-sm text-white/95 leading-relaxed">
-                    Hadirkan pesona anggun dengan koleksi gaun floral, skincare glowing, tas pastel
-                    chic, dan aksesori mutiara air tawar eksklusif.
+                    Hadirkan pesona anggun dengan koleksi gaun floral, skincare
+                    glowing, tas pastel chic, dan aksesori mutiara air tawar
+                    eksklusif.
                   </p>
                 </div>
 
@@ -109,7 +137,7 @@ export default function HomePage() {
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
                     type="button"
-                    onClick={() => router.push('/products')}
+                    onClick={() => router.push("/products")}
                     className="px-6 py-2.5 sm:py-3 rounded-full bg-white text-[#4A3A3A] font-bold text-xs sm:text-sm flex items-center gap-2 shadow-lg shadow-black/10 hover:bg-[#FFF9F9] transition-all"
                   >
                     <ShoppingBag className="w-4 h-4 text-[#F49A9D]" />
@@ -119,7 +147,7 @@ export default function HomePage() {
 
                   <button
                     type="button"
-                    onClick={() => router.push('/products?filter=featured')}
+                    onClick={() => router.push("/products?filter=featured")}
                     className="px-4 sm:px-5 py-2.5 sm:py-3 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-semibold text-xs sm:text-sm border border-white/40 transition-colors"
                   >
                     Lihat Pilihan ✨
@@ -134,11 +162,13 @@ export default function HomePage() {
                   <motion.div
                     whileHover={{ y: -4 }}
                     className="relative bg-white/90 backdrop-blur-md p-2.5 rounded-[1.75rem] shadow-xl border border-white/80 overflow-hidden cursor-pointer group"
-                    onClick={() => router.push('/products?category=feminine-dresses')}
+                    onClick={() =>
+                      router.push("/products?category=best-seller")
+                    }
                   >
                     <div className="relative h-44 sm:h-52 w-full rounded-2xl overflow-hidden bg-pink-50">
                       <img
-                        src="https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=800&auto=format&fit=crop&q=80"
+                        src={productDashboard[0]?.images[0]}
                         alt="French Floral Dress Preview"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         referrerPolicy="no-referrer"
@@ -155,50 +185,64 @@ export default function HomePage() {
                     <div className="pt-2 px-1 flex items-center justify-between">
                       <div>
                         <span className="text-[10px] text-[#9A8585] block font-medium">
-                          Dress Koleksi
+                          {productDashboard[0]?.category_name}
                         </span>
                         <h4 className="text-xs font-bold text-[#4A3A3A] truncate max-w-[140px]">
-                          French Rose Dress
+                          {productDashboard[0]?.name}
                         </h4>
                       </div>
-                      <span className="text-xs font-extrabold text-[#F49A9D]">Rp 299.000</span>
+                      <span className="text-xs font-extrabold text-[#F49A9D]">
+                        {formatRupiah(productDashboard[0]?.price)}
+                      </span>
                     </div>
                   </motion.div>
 
-                  {/* Floating Mini Product Badge 1: Skincare */}
                   <motion.div
                     animate={{ y: [-4, 4, -4] }}
-                    transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                    transition={{
+                      duration: 4,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
                     className="absolute -top-3 -left-4 sm:-left-6 bg-white p-2 rounded-2xl shadow-lg border border-pink-100 flex items-center gap-2 cursor-pointer hover:scale-105 transition-transform"
-                    onClick={() => router.push('/products?category=skincare-glow')}
+                    onClick={() =>
+                      router.push("/products?category=best-seller")
+                    }
                   >
                     <img
-                      src="https://images.unsplash.com/photo-1608248597359-0a688849b2ba?w=300&auto=format&fit=crop&q=80"
+                      src={productDashboard[1]?.images[0]}
                       alt="Glow Serum"
                       className="w-9 h-9 rounded-xl object-cover border border-pink-100"
                       referrerPolicy="no-referrer"
                     />
                     <div className="pr-1 text-left">
                       <span className="text-[9px] font-bold text-[#F49A9D] bg-pink-50 px-1.5 py-0.2 rounded-sm block w-fit">
-                        -30% OFF
+                        {productDashboard[1]?.discountPercent}%
                       </span>
                       <span className="text-[10px] font-bold text-[#4A3A3A] block">
-                        Rose Glow Serum
+                        {productDashboard[1]?.name}
                       </span>
                     </div>
                   </motion.div>
 
-                  {/* Floating Mini Product Badge 2: Pearl Accessories */}
                   <motion.div
                     animate={{ y: [4, -4, 4] }}
-                    transition={{ duration: 3.6, repeat: Infinity, ease: 'easeInOut' }}
+                    transition={{
+                      duration: 3.6,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
                     className="absolute -bottom-3 -right-2 sm:-right-4 bg-white px-2.5 py-1.5 rounded-2xl shadow-lg border border-pink-100 flex items-center gap-1.5 cursor-pointer hover:scale-105 transition-transform"
-                    onClick={() => router.push('/products?category=jewelry-pearls')}
+                    onClick={() =>
+                      router.push("/products?category=best-seller")
+                    }
                   >
                     <div className="w-6 h-6 rounded-full bg-[#FFF1F1] flex items-center justify-center text-[#F49A9D]">
                       <Heart className="w-3.5 h-3.5 fill-[#FEBCBD] text-[#F49A9D]" />
                     </div>
-                    <span className="text-[10px] font-bold text-[#4A3A3A]">Pearl Drop 18K ✨</span>
+                    <span className="text-[10px] font-bold text-[#4A3A3A]">
+                      {productDashboard[2]?.name} ✨
+                    </span>
                   </motion.div>
                 </div>
               </div>
@@ -227,12 +271,13 @@ export default function HomePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
             className="col-span-12 lg:col-span-4 bg-white rounded-[2rem] p-5 sm:p-6 border border-[#FEBCBD]/40 shadow-sm flex flex-col justify-between relative overflow-hidden group cursor-pointer"
-            onClick={() => router.push('/products?filter=featured')}
+            onClick={() => router.push("/products?filter=featured")}
           >
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="px-2.5 py-0.5 rounded-full bg-pink-50 text-[10px] font-bold text-[#F49A9D] border border-pink-200 flex items-center gap-1">
-                  <Flame className="w-3 h-3 text-[#F49A9D]" /> Spotlight Pekan Ini
+                  <Flame className="w-3 h-3 text-[#F49A9D]" /> Spotlight Pekan
+                  Ini
                 </span>
                 <span className="text-[11px] font-semibold text-emerald-600 flex items-center gap-1">
                   <CheckCircle className="w-3 h-3" /> Ready Stock
@@ -242,30 +287,33 @@ export default function HomePage() {
               {/* Product Spotlight Visual */}
               <div className="relative h-36 sm:h-40 rounded-2xl overflow-hidden bg-pink-50 border border-[#FEBCBD]/30">
                 <img
-                  src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=700&auto=format&fit=crop&q=80"
+                  src={productDashboard[3]?.images[0]}
                   alt="Spotlight Product Collection"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   referrerPolicy="no-referrer"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                 <div className="absolute bottom-2 left-3 right-3 text-white">
-                  <span className="text-[10px] font-medium text-pink-200">Koleksi Terlaris</span>
+                  <span className="text-[10px] font-medium text-pink-200">
+                    Koleksi Terlaris
+                  </span>
                   <h3 className="font-display font-bold text-sm text-white drop-shadow-xs">
-                    Glow Skincare & Beauty Routine
+                    {productDashboard[3]?.name}
                   </h3>
                 </div>
               </div>
 
               <div>
                 <p className="text-xs text-[#9A8585] leading-relaxed">
-                  Formula lembut dengan ekstrak botanical mawar untuk kulit glowing dan lembap
-                  sepanjang hari.
+                  {productDashboard[3]?.description}
                 </p>
               </div>
             </div>
 
             <div className="mt-3 pt-3 border-t border-pink-50 flex items-center justify-between">
-              <span className="font-extrabold text-sm text-[#F49A9D]">Mulai Rp 120.000</span>
+              <span className="font-extrabold text-sm text-[#F49A9D]">
+                Mulai {formatRupiah(productDashboard[3]?.price)}
+              </span>
               <button
                 type="button"
                 className="px-3.5 py-1.5 rounded-full bg-[#FEBCBD] hover:bg-[#F49A9D] text-[#4A3A3A] font-bold text-xs flex items-center gap-1 transition-colors shadow-2xs"
@@ -286,30 +334,20 @@ export default function HomePage() {
             <div className="space-y-2">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white text-[10px] font-extrabold text-[#F49A9D] shadow-2xs">
                 <Tag className="w-3 h-3" />
-                <span>KODE VOUCHER SPESIAL</span>
+                <span>DISKON SETIAP HARI</span>
               </div>
               <h3 className="font-display font-bold text-base text-[#4A3A3A]">
-                Diskon 30% Belanja Pertama ✨
+                Cantik Makin Hemat ✨
               </h3>
               <p className="text-xs text-[#9A8585]">
-                Gunakan kode voucher saat checkout untuk hemat lebih banyak!
+                Temukan berbagai produk dengan penawaran spesial setiap hari.
+                Yuk, cek dan temukan favoritmu!
               </p>
             </div>
-
-            <div className="mt-4 flex items-center justify-between bg-white rounded-2xl p-2.5 border border-[#FEBCBD]/40">
-              <div className="flex flex-col">
-                <span className="text-[10px] text-[#9A8585] uppercase tracking-wider">
-                  Voucher Code
-                </span>
-                <span className="font-mono text-xs font-bold text-[#F49A9D]">CUTEGIRL30</span>
-              </div>
-              <button
-                type="button"
-                onClick={() => router.push('/products')}
-                className="px-3.5 py-1.5 rounded-full bg-[#FEBCBD] hover:bg-[#F49A9D] text-[11px] font-bold text-[#4A3A3A] transition-colors"
-              >
-                Pakai
-              </button>
+            <div className="mt-2 flex items-center gap-2 text-xs font-semibold text-[#F49A9D]">
+              {" "}
+              <DiscIcon className="w-4 h-4 text-emerald-500" />{" "}
+              <span>Diskon Menarik Setiap Hari</span>{" "}
             </div>
           </motion.div>
 
@@ -329,7 +367,8 @@ export default function HomePage() {
                   Packaging Estetik & Aman 🎀
                 </h4>
                 <p className="text-xs text-[#9A8585] mt-1 leading-relaxed">
-                  Setiap pesanan dikemas dengan box pink eksklusif, bubble wrap tebal, dan pita manis.
+                  Setiap pesanan dikemas dengan box pink eksklusif, bubble wrap
+                  tebal, dan pita manis.
                 </p>
               </div>
             </div>
@@ -346,7 +385,7 @@ export default function HomePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.25 }}
             className="col-span-12 lg:col-span-4 bg-gradient-to-tr from-[#FFF9F9] to-[#FFF1F1] rounded-[2rem] p-6 border border-[#FEBCBD]/40 shadow-xs flex flex-col justify-between cursor-pointer group"
-            onClick={() => router.push('/products')}
+            onClick={() => router.push("/products")}
           >
             <div className="space-y-2">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white text-[10px] font-extrabold text-[#4A3A3A] shadow-2xs">
@@ -362,7 +401,9 @@ export default function HomePage() {
             </div>
 
             <div className="mt-4 flex items-center justify-between pt-2 border-t border-pink-100">
-              <span className="text-xs font-bold text-[#F49A9D]">Lihat Katalog Lengkap</span>
+              <span className="text-xs font-bold text-[#F49A9D]">
+                Lihat Katalog Lengkap
+              </span>
               <div className="w-7 h-7 rounded-full bg-[#FEBCBD] flex items-center justify-center text-[#4A3A3A] group-hover:translate-x-1 transition-transform">
                 <ArrowRight className="w-3.5 h-3.5" />
               </div>
@@ -384,7 +425,7 @@ export default function HomePage() {
           </div>
           <button
             type="button"
-            onClick={() => router.push('/products')}
+            onClick={() => router.push("/products")}
             className="text-xs font-bold text-[#F49A9D] hover:underline flex items-center gap-1"
           >
             Semua Kategori <ArrowRight className="w-3.5 h-3.5" />
@@ -403,7 +444,7 @@ export default function HomePage() {
                 <img
                   src={
                     cat.image ||
-                    'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600'
+                    "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600"
                   }
                   alt={cat.name}
                   className="w-full h-full object-cover"
@@ -435,7 +476,7 @@ export default function HomePage() {
           </div>
           <button
             type="button"
-            onClick={() => router.push('/products?filter=featured')}
+            onClick={() => router.push("/products?filter=featured")}
             className="text-xs font-bold text-[#4A3A3A] hover:text-[#F49A9D] flex items-center gap-1 group"
           >
             <span>Lihat Semua</span>
@@ -468,13 +509,13 @@ export default function HomePage() {
               Cantik Maksimal, Hemat hingga 30% ✨
             </h2>
             <p className="text-xs sm:text-sm text-white/90 leading-relaxed">
-              Dapatkan diskon istimewa untuk skincare rosewater, gaun floral, dan perhiasan mutiara
-              air tawar original. Stok terbatas!
+              Dapatkan diskon istimewa untuk skincare rosewater, gaun floral,
+              dan perhiasan mutiara air tawar original. Stok terbatas!
             </p>
             <div className="pt-2">
               <button
                 type="button"
-                onClick={() => router.push('/products')}
+                onClick={() => router.push("/products")}
                 className="px-6 sm:px-8 py-3 rounded-full bg-white text-[#4A3A3A] font-bold text-xs sm:text-sm shadow-md hover:bg-[#FFF9F9] transition-all hover:scale-105"
               >
                 Klaim Promo Sekarang 💕
@@ -498,7 +539,7 @@ export default function HomePage() {
           </div>
           <button
             type="button"
-            onClick={() => router.push('/products?filter=best_seller')}
+            onClick={() => router.push("/products?filter=best_seller")}
             className="text-xs font-bold text-[#4A3A3A] hover:text-[#F49A9D] flex items-center gap-1 group"
           >
             <span>Lihat Semua Best Seller</span>
@@ -531,7 +572,7 @@ export default function HomePage() {
           </div>
           <button
             type="button"
-            onClick={() => router.push('/products?sort=newest')}
+            onClick={() => router.push("/products?sort=newest")}
             className="text-xs font-bold text-[#4A3A3A] hover:text-[#F49A9D] flex items-center gap-1 group"
           >
             <span>Lihat Produk Terbaru</span>
