@@ -204,7 +204,6 @@ const initialSettings = {
 export async function seedDatabase(): Promise<void> {
   const existing = await db.select().from(admins).limit(1);
   if (existing.length > 0) {
-    console.log("⚠️ Admin sudah ada, seed dihentikan");
     return;
   }
 

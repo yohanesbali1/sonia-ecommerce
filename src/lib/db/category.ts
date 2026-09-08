@@ -21,7 +21,6 @@ export async function getCategoryById(id: number): Promise<Category | undefined>
 
 export async function createCategory(input: Omit<Category, 'id' | 'created_at' | 'updated_at'>): Promise<Category> {
 
-  console.log(input);
   const now = new Date().toISOString();
   const [row] = await db.insert(schema.categories).values({
     name: input.name,

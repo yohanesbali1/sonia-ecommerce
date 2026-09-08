@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Package,
   FolderTree,
@@ -12,9 +12,9 @@ import {
   X,
   Sparkles,
   LayoutDashboardIcon,
-} from 'lucide-react';
-import { useAuth } from '@/context/AuthContext';
-import { BrandLogo } from '@/components/layout/BrandLogo';
+} from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
+import { BrandLogo } from "@/components/layout/BrandLogo";
 
 interface AdminLayoutProps {
   currentView: string;
@@ -36,18 +36,18 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
     //   icon: LayoutDashboardIcon,
     // },
     {
-      id: 'admin-product',
-      label: 'Kelola Produk',
+      id: "admin-product",
+      label: "Kelola Produk",
       icon: Package,
     },
     {
-      id: 'admin-category-product',
-      label: 'Kelola Kategori',
+      id: "admin-category-product",
+      label: "Kelola Kategori",
       icon: FolderTree,
     },
     {
-      id: 'admin-setting',
-      label: 'Pengaturan Toko & WA',
+      id: "admin-setting",
+      label: "Pengaturan Toko & WA",
       icon: Settings,
     },
   ];
@@ -61,20 +61,32 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className="p-2 rounded-xl text-[#4A3A3A] hover:bg-[#FFF1F1]"
           >
-            {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {sidebarOpen ? (
+              <X className="w-5 h-5" />
+            ) : (
+              <Menu className="w-5 h-5" />
+            )}
           </button>
-          <BrandLogo size="sm" showText={true} textClassName="text-sm font-bold" />
+          <BrandLogo
+            size="sm"
+            showText={true}
+            textClassName="text-sm font-bold"
+          />
         </div>
       </div>
 
       <aside
         className={`fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-[#FEBCBD]/40 p-6 flex flex-col justify-between transform transition-transform duration-200 ease-in-out lg:translate-x-0  md:h-screen ${
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          sidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         <div className="space-y-6">
           <div className="flex items-center justify-between">
-            <BrandLogo size="md" showText={true} textClassName="text-base font-black" />
+            <BrandLogo
+              size="md"
+              showText={true}
+              textClassName="text-base font-black"
+            />
 
             <button
               type="button"
@@ -99,16 +111,18 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
                   key={item.id}
                   type="button"
                   onClick={() => {
-                    router.push(`/admin/${item.id.replace('admin-', '')}`);
+                    router.push(`/admin/${item.id.replace("admin-", "")}`);
                     setSidebarOpen(false);
                   }}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-xs font-bold transition-all ${
                     isActive
-                      ? 'bg-[#FEBCBD] text-[#4A3A3A] shadow-xs'
-                      : 'text-[#9A8585] hover:text-[#4A3A3A] hover:bg-[#FFF1F1]'
+                      ? "bg-[#FEBCBD] text-[#4A3A3A] shadow-xs"
+                      : "text-[#9A8585] hover:text-[#4A3A3A] hover:bg-[#FFF1F1]"
                   }`}
                 >
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-[#4A3A3A]' : 'text-[#9A8585]'}`} />
+                  <Icon
+                    className={`w-4 h-4 ${isActive ? "text-[#4A3A3A]" : "text-[#9A8585]"}`}
+                  />
                   <span>{item.label}</span>
                 </button>
               );
@@ -119,7 +133,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
         <div className="space-y-3 pt-6 border-t border-[#FFF1F1]">
           <button
             type="button"
-            onClick={() => router.push('/')}
+            onClick={() => router.push("/")}
             className="w-full flex items-center justify-center gap-2 px-3.5 py-2 rounded-2xl bg-[#FFF9F9] hover:bg-[#FFF1F1] border border-[#FEBCBD]/50 text-xs font-bold text-[#4A3A3A] transition-colors"
           >
             <Store className="w-3.5 h-3.5 text-[#F49A9D]" />
@@ -127,14 +141,16 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
           </button>
 
           <div className="p-3 rounded-2xl bg-[#FFF1F1]/60 flex items-center justify-between">
-            <div className="truncate">
-              <span className="font-bold text-xs text-[#4A3A3A] block truncate">
-                {admin?.name || 'Administrator'}
-              </span>
-              <span className="text-[11px] text-[#9A8585] truncate block">
-                {admin?.email || 'admin@soniabalishop.com'}
-              </span>
-            </div>
+            <button type="button" onClick={() => router.push("/admin/profile")}>
+              <div className="truncate">
+                <span className="font-bold text-xs text-[#4A3A3A] block truncate">
+                  {admin?.name || "Administrator"}
+                </span>
+                <span className="text-[11px] text-[#9A8585] truncate block">
+                  {admin?.email || "admin@soniabalishop.com"}
+                </span>
+              </div>
+            </button>
             <button
               type="button"
               onClick={logout}
@@ -148,9 +164,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
       </aside>
 
       <main className="flex-1 overflow-y-auto min-h-screen lg:ml-64 p-4 sm:p-6 lg:p-8">
-        <div className="max-w-6xl mx-auto">
-          {children}
-        </div>
+        <div className="max-w-6xl mx-auto">{children}</div>
       </main>
     </div>
   );

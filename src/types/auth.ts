@@ -18,3 +18,11 @@ export interface StoreSettings {
   email: string;
   address: string;
 }
+
+
+export interface UpdateProfileAdmin {
+  name: string;
+  email: string;
+  currentPassword?: string;
+  newPassword?: string;
+}

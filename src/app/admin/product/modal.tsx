@@ -80,7 +80,6 @@ export default function ModalData(payload: any) {
 
       const result = schema.safeParse(formData);
 
-      console.log(result.error);
       if (!result.success) {
         const message = result.error.issues[0]?.message ?? "Data tidak valid";
 
@@ -98,7 +97,6 @@ export default function ModalData(payload: any) {
       setModalOpen(false);
       loadData();
     } catch (err: unknown) {
-      console.log(err);
       showToast(
         err instanceof Error ? err.message : "Gagal menyimpan produk",
         "error",
