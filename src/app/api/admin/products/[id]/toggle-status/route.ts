@@ -19,7 +19,7 @@ export async function PATCH(
     return NextResponse.json({ error: 'Product not found' }, { status: 404 });
   }
 
-  const newStatus = product.status === 'active' ? 'inactive' : 'active';
+  const newStatus = product.status ? true : false;
   const updated = await updateProduct(productId, { status: newStatus });
 
   return NextResponse.json(updated);

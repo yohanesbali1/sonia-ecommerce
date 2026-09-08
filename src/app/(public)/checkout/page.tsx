@@ -91,7 +91,7 @@ export default function CheckoutPage() {
     );
   }
 
-  const shippingCost = settings?.default_shipping_cost ?? 15000;
+  const shippingCost = 0;
   const grandTotal = subtotal + shippingCost;
 
   const handleInputChange = (
