@@ -13,8 +13,8 @@ export default function AdminLoginPage() {
   const { login, isAuthenticated } = useAuth();
   const { showToast } = useToast();
 
-  const [email, setEmail] = useState('admin@cherie.com');
-  const [password, setPassword] = useState('admin123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -44,12 +44,6 @@ export default function AdminLoginPage() {
     }
   };
 
-  const handleFillDemo = () => {
-    setEmail('admin@cherie.com');
-    setPassword('admin123');
-    showToast('Kredensial demo terisi ✨', 'pink');
-  };
-
   return (
     <div className="min-h-[85vh] flex items-center justify-center px-4 sm:px-6 py-12">
       <motion.div
@@ -69,27 +63,9 @@ export default function AdminLoginPage() {
           </div>
         </div>
 
-        <div className="p-3.5 rounded-2xl bg-pink-50 border border-pink-200/80 text-xs text-[#4A3A3A] space-y-1">
-          <div className="flex items-center justify-between font-bold text-[#F49A9D]">
-            <span className="flex items-center gap-1">
-              <Sparkles className="w-3.5 h-3.5" /> Akun Demo Admin:
-            </span>
-            <button
-              type="button"
-              onClick={handleFillDemo}
-              className="text-[11px] underline hover:text-[#4A3A3A] cursor-pointer"
-            >
-              Auto-Fill Akun
-            </button>
-          </div>
-          <p className="text-[11px] text-[#9A8585] font-mono">
-            Email: admin@cherie.com | Pass: admin123
-          </p>
-        </div>
-
         <form onSubmit={handleSubmit} className="space-y-4 text-xs">
           <div className="space-y-1.5">
-            <label className="font-bold text-[#4A3A3A]">Email Admin</label>
+            <label className="font-bold text-[#4A3A3A] mb-2">Email </label>
             <div className="relative">
               <input
                 type="email"

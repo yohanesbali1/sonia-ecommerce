@@ -16,12 +16,9 @@ export interface Product {
   price: number;
   discount_price?: number;
   stock: number;
-  status?: 'active' | 'inactive';
-  is_active?: boolean;
-  featured?: boolean;
-  is_featured?: boolean;
-  best_seller?: boolean;
-  is_best_seller?: boolean;
+  status: boolean;
+  featured: boolean;
+  best_seller: boolean;
   rating?: number;
   images: string[];
   created_at?: string;

@@ -4,17 +4,30 @@ import type { NextRequest } from 'next/server';
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Protect admin routes (except login)
-  if (pathname.startsWith('/admin') && !pathname.startsWith('/admin/login')) {
-    const token = request.cookies.get('cherie_admin_token')?.value;
-    
-    // Also check localStorage (client-side) - for API routes, check Authorization header
-    if (pathname.startsWith('/api/admin')) {
-      const authHeader = request.headers.get('authorization');
-      if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return NextResponse.json({ error: 'Akses ditolak' }, { status: 401 });
-      }
+  if (pathname.startsWith('/api/admin')) {
+    const authHeader = request.headers.get('authorization');
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return NextResponse.json(
+        { error: 'Akses ditolak' },
+        { status: 401 }
+      );
     }
+
+    const token = authHeader.substring(7).trim();
+
+    if (!token) {
+      return NextResponse.json(
+        { error: 'Token tidak ditemukan' },
+        { status: 401 }
+      );
+    }
+
+    return NextResponse.next();
+  }
+
+  if (pathname.startsWith('/admin')) {
+    return NextResponse.next();
   }
 
   return NextResponse.next();

@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "SONIABALISHOP - Toko Online Fashion & Beauty Feminine.",
   description:
     "Toko online fashion, beauty, dan lifestyle wanita dengan koleksi elegan, cute, dan modern.",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({

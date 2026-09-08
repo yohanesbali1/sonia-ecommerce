@@ -47,7 +47,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     try {
       setIsLoading(true);
       const res = await apiAdminLogin(email, password);
-      console.log(res.success);
       if (res.success && res.token) {
         if (remember) {
           localStorage.setItem('cherie_admin_token', res.token);

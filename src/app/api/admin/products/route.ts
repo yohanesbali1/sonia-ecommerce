@@ -7,8 +7,7 @@ export async function GET(request: NextRequest) {
   if (!admin) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
-
-  const products = await getProducts({ onlyActive: false });
+  const products = await getProducts({ onlyActive: false, });
   return NextResponse.json(products);
 }
 

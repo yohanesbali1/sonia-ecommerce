@@ -13,5 +13,4 @@ data/*.json
 /build/
 /node_modules
 
-.env.example
 .env.local

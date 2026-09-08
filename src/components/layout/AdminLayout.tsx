@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Package,
   FolderTree,
@@ -11,9 +11,10 @@ import {
   Menu,
   X,
   Sparkles,
-} from 'lucide-react';
-import { useAuth } from '@/context/AuthContext';
-import { BrandLogo } from '@/components/layout/BrandLogo';
+  LayoutDashboardIcon,
+} from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
+import { BrandLogo } from "@/components/layout/BrandLogo";
 
 interface AdminLayoutProps {
   currentView: string;
@@ -28,64 +29,69 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Admin menu strictly limited to Products, Categories, and Settings
   const menuItems = [
+    // {
+    //   id: 'admin-dashboard',
+    //   label: 'Dashboard',
+    //   icon: LayoutDashboardIcon,
+    // },
     {
-      id: 'admin-products',
-      label: 'Kelola Produk',
+      id: "admin-product",
+      label: "Kelola Produk",
       icon: Package,
     },
     {
-      id: 'admin-categories',
-      label: 'Kelola Kategori',
+      id: "admin-category-product",
+      label: "Kelola Kategori",
       icon: FolderTree,
     },
     {
-      id: 'admin-settings',
-      label: 'Pengaturan Toko & WA',
+      id: "admin-setting",
+      label: "Pengaturan Toko & WA",
       icon: Settings,
     },
   ];
 
   return (
-    <div className="min-h-screen bg-[#FFF9F9] flex flex-col md:flex-row">
-      {/* Mobile Top Bar */}
-      <div className="md:hidden bg-white border-b border-[#FEBCBD]/40 p-4 flex items-center justify-between sticky top-0 z-40">
+    <div className="min-h-screen bg-[#FFF9F9] flex flex-col lg:flex-row">
+      <div className="lg:hidden bg-white border-b border-[#FEBCBD]/40 p-4 flex items-center justify-between sticky top-0 z-40">
         <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className="p-2 rounded-xl text-[#4A3A3A] hover:bg-[#FFF1F1]"
           >
-            {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {sidebarOpen ? (
+              <X className="w-5 h-5" />
+            ) : (
+              <Menu className="w-5 h-5" />
+            )}
           </button>
-          <BrandLogo size="sm" showText={true} textClassName="text-sm font-bold" />
+          <BrandLogo
+            size="sm"
+            showText={true}
+            textClassName="text-sm font-bold"
+          />
         </div>
-
-        <button
-          type="button"
-          onClick={() => router.push('/')}
-          className="text-xs font-semibold px-3 py-1.5 rounded-full bg-[#FFF1F1] text-[#4A3A3A] hover:bg-[#FEBCBD]"
-        >
-          Lihat Toko
-        </button>
       </div>
 
-      {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-[#FEBCBD]/40 p-6 flex flex-col justify-between transform transition-transform duration-200 ease-in-out md:translate-x-0 md:static md:h-screen ${
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        className={`fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-[#FEBCBD]/40 p-6 flex flex-col justify-between transform transition-transform duration-200 ease-in-out lg:translate-x-0  md:h-screen ${
+          sidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         <div className="space-y-6">
-          {/* Brand */}
           <div className="flex items-center justify-between">
-            <BrandLogo size="md" showText={true} textClassName="text-base font-black" />
+            <BrandLogo
+              size="md"
+              showText={true}
+              textClassName="text-base font-black"
+            />
 
             <button
               type="button"
               onClick={() => setSidebarOpen(false)}
-              className="md:hidden text-[#9A8585] hover:text-[#4A3A3A]"
+              className="lg:hidden text-[#9A8585] hover:text-[#4A3A3A]"
             >
               <X className="w-5 h-5" />
             </button>
@@ -96,7 +102,6 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
             <span>Admin Management Panel</span>
           </div>
 
-          {/* Navigation Links */}
           <nav className="space-y-1.5 pt-2">
             {menuItems.map((item) => {
               const Icon = item.icon;
@@ -106,16 +111,18 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
                   key={item.id}
                   type="button"
                   onClick={() => {
-                    router.push(`/admin/${item.id.replace('admin-', '')}`);
+                    router.push(`/admin/${item.id.replace("admin-", "")}`);
                     setSidebarOpen(false);
                   }}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-xs font-bold transition-all ${
                     isActive
-                      ? 'bg-[#FEBCBD] text-[#4A3A3A] shadow-xs'
-                      : 'text-[#9A8585] hover:text-[#4A3A3A] hover:bg-[#FFF1F1]'
+                      ? "bg-[#FEBCBD] text-[#4A3A3A] shadow-xs"
+                      : "text-[#9A8585] hover:text-[#4A3A3A] hover:bg-[#FFF1F1]"
                   }`}
                 >
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-[#4A3A3A]' : 'text-[#9A8585]'}`} />
+                  <Icon
+                    className={`w-4 h-4 ${isActive ? "text-[#4A3A3A]" : "text-[#9A8585]"}`}
+                  />
                   <span>{item.label}</span>
                 </button>
               );
@@ -123,28 +130,27 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
           </nav>
         </div>
 
-        {/* User profile & Actions at bottom */}
         <div className="space-y-3 pt-6 border-t border-[#FFF1F1]">
-          {/* Quick Store View Switch */}
           <button
             type="button"
-            onClick={() => router.push('/')}
+            onClick={() => router.push("/")}
             className="w-full flex items-center justify-center gap-2 px-3.5 py-2 rounded-2xl bg-[#FFF9F9] hover:bg-[#FFF1F1] border border-[#FEBCBD]/50 text-xs font-bold text-[#4A3A3A] transition-colors"
           >
             <Store className="w-3.5 h-3.5 text-[#F49A9D]" />
             <span>Kunjungi Toko Online</span>
           </button>
 
-          {/* Admin Details */}
           <div className="p-3 rounded-2xl bg-[#FFF1F1]/60 flex items-center justify-between">
-            <div className="truncate">
-              <span className="font-bold text-xs text-[#4A3A3A] block truncate">
-                {admin?.name || 'Administrator'}
-              </span>
-              <span className="text-[11px] text-[#9A8585] truncate block">
-                {admin?.email || 'admin@soniabalishop.com'}
-              </span>
-            </div>
+            <button type="button" onClick={() => router.push("/admin/profile")}>
+              <div className="truncate">
+                <span className="font-bold text-xs text-[#4A3A3A] block truncate">
+                  {admin?.name || "Administrator"}
+                </span>
+                <span className="text-[11px] text-[#9A8585] truncate block">
+                  {admin?.email || "admin@soniabalishop.com"}
+                </span>
+              </div>
+            </button>
             <button
               type="button"
               onClick={logout}
@@ -157,11 +163,8 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
         </div>
       </aside>
 
-      {/* Main Content Area */}
-      <main className="flex-1 overflow-y-auto min-h-screen p-4 sm:p-6 lg:p-8">
-        <div className="max-w-6xl mx-auto">
-          {children}
-        </div>
+      <main className="flex-1 overflow-y-auto min-h-screen lg:ml-64 p-4 sm:p-6 lg:p-8">
+        <div className="max-w-6xl mx-auto">{children}</div>
       </main>
     </div>
   );

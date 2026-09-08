@@ -15,7 +15,7 @@ export const categories = pgTable('categories', {
   name: text('name').notNull(),
   slug: text('slug').notNull().unique(),
   image: text('image'),
-  status: text('status').notNull().default('active'),
+  status: boolean('status').notNull().default(true),
   created_at: text('created_at').notNull().default(sql`now()`),
   updated_at: text('updated_at').notNull().default(sql`now()`),
 });
@@ -30,7 +30,7 @@ export const products = pgTable('products', {
   price: integer('price').notNull().default(0),
   discount_price: integer('discount_price').default(0),
   stock: integer('stock').notNull().default(0),
-  status: text('status').notNull().default('active'),
+  status: boolean('status').notNull().default(true),
   featured: integer('featured').notNull().default(0),
   best_seller: integer('best_seller').notNull().default(0),
   rating: real('rating').default(0),
@@ -100,13 +100,6 @@ export const settings = pgTable('settings', {
   whatsapp: text('whatsapp').default(''),
   email: text('email').default(''),
   address: text('address').default(''),
-  bank_name: text('bank_name').default(''),
-  bank_account_number: text('bank_account_number').default(''),
-  bank_account_holder: text('bank_account_holder').default(''),
-  secondary_bank_name: text('secondary_bank_name').default(''),
-  secondary_account_number: text('secondary_account_number').default(''),
-  secondary_account_holder: text('secondary_account_holder').default(''),
-  default_shipping_cost: integer('default_shipping_cost').notNull().default(15000),
 }, (table) => [
   check('settings_id_check', sql`${table.id} = 1`),
 ]);
