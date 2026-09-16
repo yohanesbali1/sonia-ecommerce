@@ -27,6 +27,7 @@ import { useToast } from '@/context/ToastContext';
 import { getStoreSettings, submitCheckout } from '@/services/payment.service';
 import { StoreSettings, Order } from '@/types';
 import { formatRupiah } from '@/lib/utils';
+import { CheckoutSkeleton } from '@/components/ui/LoadingSkeleton';
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -35,6 +36,7 @@ export default function CheckoutPage() {
 
   const [settings, setSettings] = useState<StoreSettings | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loadingSettings, setLoadingSettings] = useState(true);
 
   // Customer Form Fields
   const [formData, setFormData] = useState({
@@ -59,10 +61,13 @@ export default function CheckoutPage() {
   useEffect(() => {
     async function loadSettings() {
       try {
+        setLoadingSettings(true);
         const data = await getStoreSettings();
         setSettings(data);
       } catch (err) {
         console.error('Failed to load settings', err);
+      } finally {
+        setLoadingSettings(false);
       }
     }
     loadSettings();
@@ -87,6 +92,19 @@ export default function CheckoutPage() {
         >
           Lihat Katalog Produk
         </button>
+      </div>
+    );
+  }
+
+  if (loadingSettings) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        <div>
+          <div className="h-4 w-36 bg-[#FFF1F1] rounded-full mb-2" />
+          <div className="h-8 w-48 bg-[#FFF1F1] rounded-full" />
+          <div className="h-3 w-80 bg-[#FFF1F1] rounded-full mt-2" />
+        </div>
+        <CheckoutSkeleton />
       </div>
     );
   }

@@ -32,6 +32,7 @@ import {
 import { getAdminDashboardStats } from '@/services/product.service';
 import { DashboardStats, Order } from '@/types';
 import { formatRupiah, formatDateIndo, getOrderStatusLabel } from '@/lib/utils';
+import { AdminDashboardSkeleton } from '@/components/ui/LoadingSkeleton';
 
 export default function AdminDashboardPage() {
   const router = useRouter();
@@ -54,17 +55,7 @@ export default function AdminDashboardPage() {
   }, []);
 
   if (loading) {
-    return (
-      <div className="space-y-6 animate-pulse">
-        <div className="h-8 bg-white rounded-2xl w-1/4" />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="h-28 bg-white rounded-3xl" />
-          ))}
-        </div>
-        <div className="h-64 bg-white rounded-3xl" />
-      </div>
-    );
+    return <AdminDashboardSkeleton />;
   }
 
   const s = stats?.stats || {

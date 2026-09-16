@@ -23,7 +23,7 @@ import { Product, Category } from "@/types";
 import { getProducts } from "@/services/product.service";
 import { getCategories } from "@/services/category-product.service";
 import { ProductCard } from "@/components/product/ProductCard";
-import { ProductGridSkeleton } from "@/components/ui/LoadingSkeleton";
+import { ProductGridSkeleton, HomeHeroSkeleton } from "@/components/ui/LoadingSkeleton";
 import { formatRupiah } from "@/lib/utils";
 
 export default function HomePage() {
@@ -85,6 +85,9 @@ export default function HomePage() {
     <div className="space-y-12 sm:space-y-16 pb-16 overflow-hidden">
       {/* Bento Grid Hero Showcase */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6">
+        {loading ? (
+          <HomeHeroSkeleton />
+        ) : (
         <div className="grid grid-cols-12 gap-5 sm:gap-6">
           {/* Main Hero Tile (8 Columns on desktop) */}
           <motion.div
@@ -410,6 +413,7 @@ export default function HomePage() {
             </div>
           </motion.div>
         </div>
+        )}
       </section>
 
       {/* Categories Bento Grid Section */}
@@ -433,7 +437,18 @@ export default function HomePage() {
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-          {categories.map((cat) => (
+          {loading ? (
+            Array.from({ length: 5 }).map((_, i) => (
+              <div
+                key={i}
+                className="bg-white rounded-[1.75rem] p-3.5 sm:p-4 border border-[#FEBCBD]/40 flex flex-col items-center text-center animate-pulse"
+              >
+                <div className="w-18 h-18 sm:w-22 sm:h-22 rounded-2xl bg-[#FFF1F1] mb-3" />
+                <div className="h-4 bg-[#FFF1F1] rounded-full w-2/3" />
+                <div className="h-3 bg-[#FFF1F1] rounded-full w-1/2 mt-1.5" />
+              </div>
+            ))
+          ) : categories.map((cat) => (
             <motion.div
               key={cat.id}
               whileHover={{ y: -4 }}

@@ -18,6 +18,7 @@ import {
   Zap,
 } from 'lucide-react';
 import { Product } from '@/types';
+import { ProductDetailSkeleton } from '@/components/ui/LoadingSkeleton';
 import { getProductDetail } from '@/services/product.service';
 import { formatRupiah } from '@/lib/utils';
 import { useCart } from '@/context/CartContext';
@@ -57,19 +58,7 @@ export default function ProductDetailPage() {
   }, [slug]);
 
   if (loading) {
-    return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 animate-pulse">
-          <div className="aspect-[4/5] bg-white rounded-3xl border border-[#FEBCBD]/40" />
-          <div className="space-y-4">
-            <div className="h-4 bg-[#FFF1F1] w-1/4 rounded-full" />
-            <div className="h-8 bg-[#FFF1F1] w-3/4 rounded-full" />
-            <div className="h-6 bg-[#FFF1F1] w-1/3 rounded-full" />
-            <div className="h-32 bg-[#FFF1F1] rounded-2xl" />
-          </div>
-        </div>
-      </div>
-    );
+    return <ProductDetailSkeleton />;
   }
 
   if (!product) {

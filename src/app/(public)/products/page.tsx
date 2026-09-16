@@ -194,8 +194,20 @@ function ProductsContent() {
 export default function ProductsPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="w-10 h-10 border-4 border-[#FEBCBD] border-t-transparent rounded-full animate-spin" />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+        <div className="animate-pulse space-y-4">
+          <div className="h-24 bg-[#FFF1F1] rounded-3xl w-full" />
+          <div className="flex gap-3">
+            <div className="h-10 bg-[#FFF1F1] rounded-2xl w-full max-w-md" />
+            <div className="h-10 bg-[#FFF1F1] rounded-2xl w-32" />
+          </div>
+          <div className="flex gap-2 overflow-hidden">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <div key={i} className="h-8 bg-[#FFF1F1] rounded-full w-20 shrink-0" />
+            ))}
+          </div>
+        </div>
+        <ProductGridSkeleton count={8} />
       </div>
     }>
       <ProductsContent />
